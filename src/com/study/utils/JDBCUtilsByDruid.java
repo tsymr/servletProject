@@ -35,7 +35,7 @@ public class JDBCUtilsByDruid {
             try {
                 connection = ds.getConnection();
                 // 将连接设置为手动提交
-                connection.setAutoCommit(true);
+                connection.setAutoCommit(false);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

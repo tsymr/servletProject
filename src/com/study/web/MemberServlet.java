@@ -18,9 +18,9 @@ public class MemberServlet extends BasicServlet {
         String email = request.getParameter("email");
         Member member = new Member(null, username, password, email);
         boolean register = memberService.register(member);
-        if(register){
+        if (register) {
             request.getRequestDispatcher("/views/member/register_ok.html").forward(request, response);
-        }else{
+        } else {
             request.getRequestDispatcher("/views/member/register_fail.html").forward(request, response);
         }
     }
@@ -30,10 +30,15 @@ public class MemberServlet extends BasicServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         Member member = memberService.login(username, password);
-        if(member == null){
+        if (member == null) {
             request.getRequestDispatcher("/views/member/login.html").forward(request, response);
-        }else {
-            request.getRequestDispatcher("/views/member/login_ok.html").forward(request, response);
+        } else {
+            request.getSession().setAttribute("member", member);
+            if ("admin".equals(member.getUsername())) {
+                request.getRequestDispatcher("/views/member/manage_menu.html").forward(request, response);
+            } else {
+                request.getRequestDispatcher("/views/member/login_ok.html").forward(request, response);
+            }
         }
 
     }
